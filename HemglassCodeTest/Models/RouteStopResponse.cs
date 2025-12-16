@@ -1,6 +1,8 @@
-﻿namespace HemglassCodeTest.Data
+﻿using HemglassCodeTest.Data;
+
+namespace HemglassCodeTest.Models
 {
-    public class GetRouteByStopResponse
+    public class RouteStopResponse
     {
         public int StatusCode { get; set; }
         public List<RouteStopDto> Data { get; set; } = [];

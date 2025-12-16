@@ -10,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpClient<RouteService>();
+builder.Services.AddHttpClient<OsrmService>();
 
 var app = builder.Build();
 
