@@ -15,11 +15,11 @@ namespace HemglassCodeTest.Services
         {
             try 
             {
-                var baseUrl = $"http://router.project-osrm.org/route/v1/driving/";
+                var baseUri = $"http://router.project-osrm.org/route/v1/driving/";
                 var fromCoordinates = $"{fromLong},{fromLat}%3B"; // %3B is the URL-encoded semicolon
                 var toCoordinates =  $"{toLong},{toLat}?overview=false";
 
-                var uri = new Uri(baseUrl + fromCoordinates + toCoordinates);
+                var uri = new Uri(baseUri + fromCoordinates + toCoordinates); // Todo: Fix the uri so it doesn't cut off after semicolon, and works with OSRM
 
                 var response = await _http.GetFromJsonAsync<OsrmResponse>(uri);
 

@@ -9,8 +9,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Services that require HttpClient
 builder.Services.AddHttpClient<RouteService>();
 builder.Services.AddHttpClient<OsrmService>();
+
+builder.Services.AddScoped<EtaService>();
 
 var app = builder.Build();
 
