@@ -1,12 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HemglassCodeTest.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HemglassCodeTest.Controllers
 {
+    [ApiController]
+    [Route("api/test/route")]
     public class EtaController : Controller
     {
-        public IActionResult Index()
+        private readonly RouteService _routeService;
+
+        public EtaController(RouteService routeService) 
+        { 
+            _routeService = routeService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> TestRouteService(long stopId)
         {
-            return View();
+            var routeStops = await _routeService.GetRouteById(stopId);
+            if (routeStops == null)
+            {
+                return NotFound("No route stops found for the given stop ID.");
+            }
+            return Ok(routeStops);
         }
     }
 }
