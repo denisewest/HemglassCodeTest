@@ -15,21 +15,37 @@ namespace HemglassCodeTest.Services
         {
             var results = new List<RouteStopEta>();
             var currentTime = DateTime.UtcNow;
-            var longitude = vehicle.Longitude;
-            var latitude = vehicle.Latitude;
+
+            // Start origin at the vehicle position
+            double originLong = vehicle.Longitude;
+            double originLat = vehicle.Latitude;
+
+            double cumulativeSeconds = 0;
 
             foreach (var stop in stops)
             {
-               var travelSeconds = await _osrmService.GetExpectedTravelTimeInSeconds(longitude, latitude, stop.Longitude, stop.Latitude);
+               var travelSeconds = await _osrmService.GetExpectedTravelTimeInSeconds(originLong, originLat, stop.Longitude, stop.Latitude);
 
-               var eta = currentTime.AddSeconds(travelSeconds);
-
-                results.Add( new RouteStopEta
+                if (travelSeconds < 0)
                 {
-                     StopId = stop.StopId,
-                     EstimatedArrival = eta
+                    // If OSRM gives error, treat as zero travel time
+                    Console.WriteLine($"OSRM returned error for leg {originLong},{originLat} -> {stop.Longitude},{stop.Latitude}");
+                    travelSeconds = 0;
+                }
+
+                cumulativeSeconds += travelSeconds;
+
+                var eta = currentTime.AddSeconds(cumulativeSeconds);
+
+                results.Add(new RouteStopEta
+                {
+                    StopId = stop.StopId,
+                    EstimatedArrival = eta
                 });
 
+                // Move origin to this stop for the next leg
+                originLong = stop.Longitude;
+                originLat = stop.Latitude;
             }
             
             return results;
