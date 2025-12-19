@@ -1,6 +1,4 @@
-﻿using HemglassCodeTest.Data;
-
-namespace HemglassCodeTest.Models
+﻿namespace HemglassCodeTest.Data
 {
     public class RouteStopResponse
     {

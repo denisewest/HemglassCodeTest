@@ -1,4 +1,5 @@
-﻿using HemglassCodeTest.Models;
+﻿using HemglassCodeTest.Data;
+using HemglassCodeTest.Models;
 using System.Runtime.CompilerServices;
 
 namespace HemglassCodeTest.Services
